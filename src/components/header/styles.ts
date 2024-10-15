@@ -4,7 +4,7 @@ export const MainHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 10%;
+  padding: 48px 10%;
 `;
 
 export const NavLogo = styled.div`

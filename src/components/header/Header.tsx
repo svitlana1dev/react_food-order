@@ -1,5 +1,6 @@
 import { Logo, LogoWrapp, MainHeader, NavLogo, Title } from "./styles";
 import logo from "../../assets/logo.jpg";
+import { Button } from "../Button/Button";
 
 export const Header = () => {
   return (
@@ -13,7 +14,7 @@ export const Header = () => {
       </NavLogo>
 
       <nav>
-        <button>Cart (0)</button>
+        <Button textOnly>Cart (0)</Button>
       </nav>
     </MainHeader>
   );

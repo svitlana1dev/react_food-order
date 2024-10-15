@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { List } from "./styles";
+import { List, ListItem } from "./styles";
+import { MealItem } from "./MealItem";
 
 export const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -17,6 +18,19 @@ export const Meals = () => {
   }, []);
 
   return (
-    <List>{meals.length > 0 && meals.map(({ name }) => <li>{name}</li>)}</List>
+    <List>
+      {meals.length > 0 &&
+        meals.map(({ id, name, image, price, description }) => (
+          <ListItem key={id}>
+            <MealItem
+              id={id}
+              name={name}
+              img={image}
+              price={price}
+              description={description}
+            />
+          </ListItem>
+        ))}
+    </List>
   );
 };
