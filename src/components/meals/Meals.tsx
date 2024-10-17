@@ -1,31 +1,34 @@
-import { useEffect, useState } from "react";
-import { List, ListItem } from "./styles";
 import { MealItem } from "./MealItem";
+import { useHttp } from "../../hooks/useHttp";
+import { List, ListItem } from "./styles";
+import { Meal } from "../../types/meal";
+
+const requestConfig = { method: "GET" };
 
 export const Meals = () => {
-  const [meals, setMeals] = useState([]);
+  const {
+    data: LoadedMeals,
+    isLoading,
+    error,
+  } = useHttp("http://localhost:3001/meals", requestConfig, []);
 
-  useEffect(() => {
-    (async () => {
-      const res = await fetch("http://localhost:3001/meals");
+  if (isLoading) {
+    return <p>Fetching meals...</p>;
+  }
 
-      if (!res.ok) {
-        return;
-      }
-      const meals = await res.json();
-      setMeals(meals);
-    })();
-  }, []);
+  if (!LoadedMeals) {
+    return <p>No meals found.</p>;
+  }
 
   return (
     <List>
-      {meals.length > 0 &&
-        meals.map(({ id, name, image, price, description }) => (
+      {LoadedMeals.length > 0 &&
+        LoadedMeals.map(({ id, name, image, price, description }: Meal) => (
           <ListItem key={id}>
             <MealItem
               id={id}
               name={name}
-              img={image}
+              image={image}
               price={price}
               description={description}
             />

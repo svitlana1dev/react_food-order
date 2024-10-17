@@ -11,6 +11,12 @@ type Action = {
   id?: string;
 };
 
+type CartContext = {
+  items: Meal[] | any;
+  addItem: (item: Meal) => void;
+  removeItem: (id: string) => void;
+};
+
 const CartContext = createContext({
   items: [],
   addItem: (item: Meal) => {},
@@ -59,6 +65,7 @@ const cartReducer = (state: State, action: Action) => {
 
       updatedItems[existingIndex] = updatedItem;
     }
+    return { ...state, items: updatedItems };
   }
 
   return state;
@@ -75,12 +82,12 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
     dispatchCartAction({ type: "REMOVE_ITEM", id });
   };
 
-  const cartContext: any = {
+  const cartContext: CartContext = {
     items: cart.items,
     addItem,
     removeItem,
   };
-  console.log(cartContext);
+
   return (
     <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>
   );

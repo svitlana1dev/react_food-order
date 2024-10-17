@@ -1,7 +1,7 @@
 export type Meal = {
   id: string;
   name: string;
-  img: string;
+  image: string;
   price: string;
   description: string;
   quantity?: number;

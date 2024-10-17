@@ -1,8 +1,20 @@
 import { Logo, LogoWrapp, MainHeader, NavLogo, Title } from "./styles";
 import logo from "../../assets/logo.jpg";
-import { Button } from "../Button/Button";
+import { Button } from "../button/Button";
+import { useContext } from "react";
+import CartContext from "../../store/CartContext";
+import { UserProgressContext } from "../../store/UseProgressContext";
 
 export const Header = () => {
+  const cartCtx = useContext(CartContext);
+  const userProgressCtx = useContext(UserProgressContext);
+
+  const totalItems = cartCtx.items.length;
+
+  const handleShowCart = () => {
+    userProgressCtx.showCart();
+  };
+
   return (
     <MainHeader>
       <NavLogo>
@@ -14,7 +26,9 @@ export const Header = () => {
       </NavLogo>
 
       <nav>
-        <Button textOnly>Cart (0)</Button>
+        <Button textOnly onClick={handleShowCart}>
+          Cart ({totalItems})
+        </Button>
       </nav>
     </MainHeader>
   );

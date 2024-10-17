@@ -9,21 +9,27 @@ import {
   ArticleTitle,
 } from "./styles";
 import { Meal } from "../../types/meal";
-import { Button } from "../Button/Button";
+import { Button } from "../button/Button";
 import CartContext from "../../store/CartContext";
 
 type Props = Meal;
 
-export const MealItem: FC<Props> = ({ id, name, img, price, description }) => {
+export const MealItem: FC<Props> = ({
+  id,
+  name,
+  image,
+  price,
+  description,
+}) => {
   const cartCtx = useContext(CartContext);
 
   const handleAddToCart = () => {
-    cartCtx.addItem({ id, name, img, price, description });
+    cartCtx.addItem({ id, name, image, price, description });
   };
 
   return (
     <Article>
-      <ArticleImg src={`http://localhost:3001/${img}`} alt={name} />
+      <ArticleImg src={`http://localhost:3001/${image}`} alt={name} />
       <div>
         <ArticleTitle>{name}</ArticleTitle>
         <ArticlePrice>{currencyFormatter.format(Number(price))}</ArticlePrice>
@@ -32,9 +38,7 @@ export const MealItem: FC<Props> = ({ id, name, img, price, description }) => {
 
       <div>
         <ArticleBtn>
-          <Button onClick={handleAddToCart} textOnly={false}>
-            Add to Cart
-          </Button>
+          <Button onClick={handleAddToCart}>Add to Cart</Button>
         </ArticleBtn>
       </div>
     </Article>
