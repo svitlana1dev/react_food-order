@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { currencyFormatter } from "../../util/formatting";
+import { CartItemActions, CartItemBtn } from "./styles";
 
 type Props = {
   name: string;
@@ -22,11 +23,11 @@ export const CartItem: FC<Props> = ({
         {name} - {quantity} x {currencyFormatter.format(Number(price))}
       </p>
 
-      <p>
-        <button onClick={onDec}>-</button>
+      <CartItemActions>
+        <CartItemBtn onClick={onDec}>-</CartItemBtn>
         <span>{quantity}</span>
-        <button onClick={onInc}>+</button>
-      </p>
+        <CartItemBtn onClick={onInc}>+</CartItemBtn>
+      </CartItemActions>
     </>
   );
 };

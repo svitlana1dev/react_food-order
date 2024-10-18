@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Modal } from "../modal/Modal";
 import CartContext from "../../store/CartContext";
 import { currencyFormatter } from "../../util/formatting";
@@ -6,6 +6,7 @@ import { Button } from "../button/Button";
 import { UserProgressContext } from "../../store/UseProgressContext";
 import { CartItem } from "./CartItem";
 import { Meal } from "../../types/meal";
+import { CartActions, CartItemWrapp, CartList, CartTotalPrice } from "./styles";
 
 export const Cart = () => {
   const cartCtx = useContext(CartContext);
@@ -29,11 +30,10 @@ export const Cart = () => {
       open={userProgressCtx.process === "cart"}
       onClose={userProgressCtx.process === "cart" ? handleCloseCart : undefined}
     >
-      <h2>Your Cart</h2>
-      <ul>
+      <CartList>
         {cartCtx.items.map(
           ({ id, name, image, description, quantity, price }: Meal) => (
-            <li key={id}>
+            <CartItemWrapp key={id}>
               <CartItem
                 name={name}
                 quantity={quantity!}
@@ -50,20 +50,20 @@ export const Cart = () => {
                 }
                 onDec={() => cartCtx.removeItem(id)}
               />
-            </li>
+            </CartItemWrapp>
           )
         )}
-      </ul>
+      </CartList>
 
-      <p>{currencyFormatter.format(cartTotal)}</p>
-      <div>
+      <CartTotalPrice>{currencyFormatter.format(cartTotal)}</CartTotalPrice>
+      <CartActions>
         <Button textOnly onClick={handleCloseCart}>
           Close
         </Button>
         {cartCtx.items.length > 0 && (
           <Button onClick={handleGoToCheckout}>Go to Checkout</Button>
         )}
-      </div>
+      </CartActions>
     </Modal>
   );
 };

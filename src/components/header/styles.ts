@@ -4,7 +4,7 @@ export const MainHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 10%;
+  padding: 10px 10%;
 `;
 
 export const NavLogo = styled.div`
@@ -28,4 +28,23 @@ export const Logo = styled.img`
 export const Title = styled.h1`
   text-transform: uppercase;
   color: #44c3c3;
+`;
+
+export const CartBtn = styled.div`
+  position: relative;
+`;
+
+export const CartIcon = styled.img`
+  max-width: 30px;
+`;
+
+export const CartTotal = styled.span`
+  padding: 5px;
+  background: #44c3c3;
+  color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: -15px;
+  right: -20px;
+  width: 20px;
 `;

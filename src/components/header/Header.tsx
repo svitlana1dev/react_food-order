@@ -1,4 +1,13 @@
-import { Logo, LogoWrapp, MainHeader, NavLogo, Title } from "./styles";
+import {
+  CartBtn,
+  CartIcon,
+  CartTotal,
+  Logo,
+  LogoWrapp,
+  MainHeader,
+  NavLogo,
+  Title,
+} from "./styles";
 import logo from "../../assets/logo.jpg";
 import { Button } from "../button/Button";
 import { useContext } from "react";
@@ -27,7 +36,10 @@ export const Header = () => {
 
       <nav>
         <Button textOnly onClick={handleShowCart}>
-          Cart ({totalItems})
+          <CartBtn>
+            <CartIcon src={"./cart-icon.png"} alt={"cart"} />
+            <CartTotal>{totalItems}</CartTotal>
+          </CartBtn>
         </Button>
       </nav>
     </MainHeader>

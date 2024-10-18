@@ -1,5 +1,6 @@
 import { FC, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Dialog } from "./styles";
 
 type Props = {
   children: ReactNode;
@@ -23,9 +24,9 @@ export const Modal: FC<Props> = ({ children, open, onClose }) => {
   }, [open]);
 
   return createPortal(
-    <dialog ref={dialog} onClose={onClose}>
+    <Dialog ref={dialog} onClose={onClose}>
       {children}
-    </dialog>,
+    </Dialog>,
     document.getElementById("modal")!
   );
 };

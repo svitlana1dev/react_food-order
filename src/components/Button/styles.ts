@@ -9,6 +9,7 @@ export const Btn = styled.button<Props>`
   text-transform: uppercase;
   font-weight: 600;
   font-size: 16px;
+  cursor: pointer;
 
   ${(props) =>
     props.$textOnly

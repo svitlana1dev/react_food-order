@@ -1,17 +1,22 @@
 import { useContext, useState } from "react";
+import env from "react-dotenv";
 import CartContext from "../../store/CartContext";
 import { Modal } from "../modal/Modal";
 import { currencyFormatter } from "../../util/formatting";
 import { Input } from "../input/Input";
 import { Button } from "../button/Button";
 import { UserProgressContext } from "../../store/UseProgressContext";
+import { ControlRow, ModalActions, TotalAmount } from "./styles";
 
 export const Checkout = () => {
   const [ordered, setOrdered] = useState(false);
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
 
-  const cartTotal = cartCtx.items.length;
+  const cartTotal = cartCtx.items.reduce(
+    (accumulator, { price }) => accumulator + Number(price),
+    0
+  );
 
   const handleClose = () => {
     userProgressCtx.hideCheckout();
@@ -24,7 +29,7 @@ export const Checkout = () => {
     const formData = new FormData(e.target as HTMLFormElement);
     const customerData = Object.fromEntries(formData.entries());
 
-    fetch("http://localhost:3001/orders", {
+    fetch(`${env.REACT_APP_API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -38,7 +43,11 @@ export const Checkout = () => {
     }).then((res) => {
       if (res.ok) {
         setOrdered(true);
-        cartCtx.items.forEach(({ id }) => cartCtx.removeItem(id));
+
+        setTimeout(() => {
+          userProgressCtx.hideCheckout();
+          cartCtx.items.forEach(({ id }) => cartCtx.removeItem(id));
+        }, 4000);
       }
     });
   };
@@ -47,26 +56,25 @@ export const Checkout = () => {
     <Modal open={userProgressCtx.process === "checkout"} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
-        <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
-        <Input label="Full Name" id="name" type="text" />
+        <Input label="Full Name" id="name" type="text" required />
         <Input label="E-Mail Address" id="email" type="email" required />
-        <Input label="Street" id="street" type="text" />
-        <div className="control-row">
-          <Input label="Postal Code" id="postal-code" type="text" />
-          <Input label="City" id="city" type="text" />
-        </div>
+        <Input label="Street" id="street" type="text" required />
+        <ControlRow>
+          <Input label="Postal Code" id="postal-code" type="text" required />
+          <Input label="City" id="city" type="text" required />
+        </ControlRow>
 
-        <div className="modal-actions" style={{ display: "flex" }}>
+        <TotalAmount>
+          Total Amount: {currencyFormatter.format(cartTotal)}
+        </TotalAmount>
+
+        <ModalActions>
           <Button type="button" textOnly onClick={handleClose}>
             Close
           </Button>
-          {ordered ? (
-            <p>Order successful</p>
-          ) : (
-            <Button type="submit">Submit Order</Button>
-          )}
-        </div>
+          <Button type="submit">{ordered ? "✔" : "Submit Order"}</Button>
+        </ModalActions>
       </form>
     </Modal>
   );

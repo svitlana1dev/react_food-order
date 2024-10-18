@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Control, ControlInput } from "./style";
 
 type Props = {
   label: string;
@@ -10,15 +11,15 @@ type Props = {
 
 export const Input: FC<Props> = ({ label, id, required, type, onChange }) => {
   return (
-    <div className="control">
+    <Control>
       <label htmlFor={id}>{label}</label>
-      <input
+      <ControlInput
         id={id}
         name={id}
         required={required}
         type={type}
         onChange={onChange}
       />
-    </div>
+    </Control>
   );
 };
